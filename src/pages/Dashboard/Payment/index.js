@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import PaymentButton from '../../../components/Payment/PaymentButton';
+import TicketButton from '../../../components/Payment/TicketButton';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useTicket from '../../../hooks/api/useTicket';
 
@@ -16,7 +16,7 @@ export default function Payment() {
           <SessionButtons>
             {tickets?.map(ticket => {
               return (
-                <PaymentButton key={ticket.id} type={ticket.type} price={ticket.price} />
+                <TicketButton key={ticket.id} id={ticket.id} type={ticket.type} price={ticket.price} />
               );
             })}
           </SessionButtons>

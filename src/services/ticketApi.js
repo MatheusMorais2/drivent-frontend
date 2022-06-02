@@ -9,3 +9,20 @@ export async function getAll(token, eventId) {
 
   return response.data;
 }
+
+export async function updateUserTicket(token, ticketId) {
+  await api.put('/tickets/update/ticket', { ticketId }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function getUserTicketInfo(token) {
+  const response = await api.get('/tickets', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
