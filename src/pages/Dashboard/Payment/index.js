@@ -2,10 +2,13 @@ import styled from 'styled-components';
 import TicketButton from '../../../components/Payment/TicketButton';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useTicket from '../../../hooks/api/useTicket';
+import useToken from '../../../hooks/useToken';
+import { insertPaymentData } from '../../../services/paymentApi';
 
 export default function Payment() {
   const { enrollment } = useEnrollment();
   const { tickets } = useTicket();
+  const token = useToken();
 
   return (
     <PaymentContainer>
@@ -22,7 +25,9 @@ export default function Payment() {
           </SessionButtons>
           {/* componentes criados mas podem apagar \/ */}
           <SessionTitle>Fechado! O total ficou em <span style={{ fontWeight: 'bold' }}>R$ 100</span>. Agora é só confirmar:</SessionTitle>
-          <ActionButton>RESERVAR INGRESSO</ActionButton>
+         
+          <ActionButton onClick={() => insertPaymentData(token)}>RESERVAR INGRESSO</ActionButton>
+
           {/* componentes criados mas podem apagar /\ */}
         </>
         : <AlertContainer><p>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</p></AlertContainer>}
