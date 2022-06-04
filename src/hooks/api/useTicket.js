@@ -6,7 +6,7 @@ import * as ticketApi from '../../services/ticketApi';
 import { useContext } from 'react';
 import EventInfoContext from '../../contexts/EventInfoContext';
 
-export default function useTicket(eventId) {
+export default function useTicket() {
   const token = useToken();
   const { eventInfo } = useContext(EventInfoContext);
   const {
