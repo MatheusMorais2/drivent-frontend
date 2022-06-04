@@ -19,12 +19,12 @@ const Button = styled.button`
   width: 9rem;
   height: 9rem;
   margin: 2rem 0;
-  border: 1px solid #CECECE;
-  background-color: ${props => props.active ? '#FFEED2' : '#FFFFFF'};
+  border: 1px solid #cecece;
+  background-color: ${(props) => (props.active ? '#FFEED2' : '#FFFFFF')};
   border-radius: 1rem;
   transition: all;
-  &:hover{
-    background-color: #FFF9F0;
+  &:hover {
+    background-color: #fff9f0;
     cursor: pointer;
   }
 `;
