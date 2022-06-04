@@ -13,13 +13,13 @@ export default function useTicket(eventId) {
     data: tickets,
     loading: ticketsLoading,
     error: ticketsError,
-    act: getTickets
+    act: getTickets,
   } = useAsync(() => ticketApi.getAll(token, eventInfo.id));
 
   return {
     tickets,
     ticketsLoading,
     ticketsError,
-    getTickets
+    getTickets,
   };
 }
