@@ -6,20 +6,20 @@ import * as ticketApi from '../../services/ticketApi';
 import { useContext } from 'react';
 import EventInfoContext from '../../contexts/EventInfoContext';
 
-export default function useTicket(eventId) {
+export default function useTicket() {
   const token = useToken();
   const { eventInfo } = useContext(EventInfoContext);
   const {
     data: tickets,
     loading: ticketsLoading,
     error: ticketsError,
-    act: getTickets
+    act: getTickets,
   } = useAsync(() => ticketApi.getAll(token, eventInfo.id));
 
   return {
     tickets,
     ticketsLoading,
     ticketsError,
-    getTickets
+    getTickets,
   };
 }
