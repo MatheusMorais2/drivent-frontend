@@ -2,13 +2,13 @@ import styled from 'styled-components';
 
 import * as optionalApi from '../../services/optionalApi';
 import useToken from '../../hooks/useToken';
-import useUserOptionals from '../../hooks/api/useUserOptional';
+import useUserTicket from '../../hooks/api/useUserTicket';
 
 export default function OpitionalButton({ type, price, id }) {
   const token = useToken();
-  const { userOptionals } = useUserOptionals();
+  const { userTicket } = useUserTicket();
   return (
-    <Button active={userOptionals?.userOptionalsId === id} onClick={() => optionalApi.updateUserOptional(token, id)}>
+    <Button active={userTicket?.optionalId === id} onClick={() => optionalApi.updateUserOptional(token, id)}>
       <Type>{type}</Type>
       <Price>R$ {price}</Price>
     </Button>

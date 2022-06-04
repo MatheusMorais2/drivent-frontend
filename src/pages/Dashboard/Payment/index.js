@@ -5,6 +5,7 @@ import useTicket from '../../../hooks/api/useTicket';
 import useOptional from '../../../hooks/api/useOptional';
 import OptionalButton from '../../../components/Payment/OptionalButton';
 import useToken from '../../../hooks/useToken';
+import { insertPaymentData } from '../../../services/paymentApi';
 
 export default function Payment() {
   const { enrollment } = useEnrollment();

@@ -1,7 +1,7 @@
 import api from './api';
 
-export async function getAll(token, eventId) {
-  const response = await api.get(`/tickets/optionals/${eventId}`, {
+export async function getAll(token, ticketId) {
+  const response = await api.get(`/tickets/optionals/${ticketId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
