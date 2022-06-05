@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import * as optionalApi from '../../services/optionalApi';
 import useToken from '../../hooks/useToken';
 
-export default function OptionalButton({ active, type, price, id, att, setAtt }) {
+export default function OptionalButton({ active, type, price, id, att, setAtt, setReserve }) {
   const token = useToken();
 
   async function handleUpdateUserTicket(optionalId) {
     await optionalApi.updateUserOptional(token, optionalId);
     setAtt(!att);
+    setReserve(true);
   }
   return (
     <Button active={active} onClick={() => handleUpdateUserTicket(id)}>

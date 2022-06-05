@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useToken from '../../../hooks/useToken';
-import { insertPaymentData } from '../../../services/paymentApi';
+// import { insertPaymentData } from '../../../services/paymentApi';
 import { Tickets } from './Tickets';
 
 export default function Payment() {
@@ -17,10 +17,10 @@ export default function Payment() {
           <Title>Ingresso e Pagamento</Title>
           <Tickets />
 
-          <SessionTitle>
+          {/* <SessionTitle>
             Fechado! O total ficou em <span style={{ fontWeight: 'bold' }}>R$ 100</span>. Agora é só confirmar:
           </SessionTitle>
-          <ActionButton onClick={() => insertPaymentData(token)}>RESERVAR INGRESSO</ActionButton>
+          <ActionButton onClick={() => insertPaymentData(token)}>RESERVAR INGRESSO</ActionButton> */}
         </>
       ) : (
         <AlertContainer>
