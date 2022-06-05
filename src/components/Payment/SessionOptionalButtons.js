@@ -5,10 +5,9 @@ import { getUserOptionalInfo } from '../../services/optionalApi';
 import { getUserTicketInfo } from '../../services/userTicketApi';
 import OptionalButton from './OptionalButton';
 
-export function SessionOptionalButtons({ ticketId }) {
+export function SessionOptionalButtons({ att, setAtt, ticketId, setReserve, setTotal }) {
   const token = useToken();
   const [userTicket, setUserTicket] = useState(null);
-  const [att, setAtt] = useState(false);
   const [optionals, setOptionals] = useState(null);
 
   useEffect(() => {
@@ -29,8 +28,20 @@ export function SessionOptionalButtons({ ticketId }) {
       <>
         <SessionTitle>Ótimo! Agora escolha sua modalidade de hospedagem</SessionTitle>
         <SessionButtons>
-          {optionals?.map(optional => {
-            return <OptionalButton key={optional.id} att={att} setAtt={setAtt} active={userTicket?.optionalId === optional.id} id={optional.id} type={optional.type} price={optional.price} />;
+          {optionals?.map((optional) => {
+            return (
+              <OptionalButton
+                setReserve={setReserve}
+                key={optional.id}
+                att={att}
+                setAtt={setAtt}
+                active={userTicket?.optionalId === optional.id}
+                id={optional.id}
+                type={optional.type}
+                price={optional.price}
+                setTotal={setTotal}
+              />
+            );
           })}
         </SessionButtons>
       </>

@@ -5,6 +5,7 @@ import useToken from '../../hooks/useToken';
 import { getUserTicketInfo } from '../../services/userTicketApi';
 import { SessionOptionalButtons } from './SessionOptionalButtons';
 import TicketButton from './TicketButton';
+import { Reserve } from './Reserve';
 
 export default function SessionTicketButtons() {
   const token = useToken();
@@ -12,6 +13,8 @@ export default function SessionTicketButtons() {
   const [userTicket, setUserTicket] = useState(null);
   const [att, setAtt] = useState(false);
   const [ticketId, setTicketId] = useState(userTicket?.ticketId);
+  const [reserve, setReserve] = useState(false);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     async function fetchUserTicketData() {
@@ -27,10 +30,23 @@ export default function SessionTicketButtons() {
       <SessionTitle>Primeiro, escolha sua modalidade de ingresso</SessionTitle>
       <SessionButtons>
         {tickets?.map((ticket) => {
-          return <TicketButton key={ticket.id} att={att} setAtt={setAtt} active={userTicket?.ticketId === ticket.id} id={ticket.id} type={ticket.type} price={ticket.price} />;
+          return (
+            <TicketButton
+              key={ticket.id}
+              att={att}
+              setAtt={setAtt}
+              active={userTicket?.ticketId === ticket.id}
+              id={ticket.id}
+              type={ticket.type}
+              price={ticket.price}
+              setReserve={setReserve}
+              setTotal={setTotal}
+            />
+          );
         })}
       </SessionButtons>
-      <SessionOptionalButtons ticketId={ticketId} />
+      <SessionOptionalButtons att={att} setAtt={setAtt} setReserve={setReserve} ticketId={ticketId} setTotal={setTotal}/>
+      <Reserve reserve={reserve} total={total} />
     </>
   );
 }
