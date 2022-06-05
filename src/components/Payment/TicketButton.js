@@ -1,16 +1,27 @@
 import styled from 'styled-components';
 import * as ticketApi from '../../services/ticketApi';
 import useToken from '../../hooks/useToken';
+import { useEffect } from 'react';
 
-export default function TicketButton({ active, type, price, id, att, setAtt, setReserve }) {
+export default function TicketButton({ active, type, price, id, att, setAtt, setReserve, setTotal }) {
   const token = useToken();
+
+  useEffect(() => {
+    if (type === 'Online' && active) {
+      setReserve(true);
+      setTotal(100);
+    } 
+  }, [active]);
 
   async function handleUpdateUserTicket(ticketId) {
     await ticketApi.updateUserTicket(token, ticketId);
     setAtt(!att);
     if (type === 'Online') {
       setReserve(true);
-    } else setReserve(false);
+      setTotal(100);
+    } else {
+      setReserve(false);
+    }
   }
   return (
     <Button active={active} onClick={() => handleUpdateUserTicket(id)}>

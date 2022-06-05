@@ -2,14 +2,31 @@ import styled from 'styled-components';
 
 import * as optionalApi from '../../services/optionalApi';
 import useToken from '../../hooks/useToken';
+import { useEffect } from 'react';
 
-export default function OptionalButton({ active, type, price, id, att, setAtt, setReserve }) {
+export default function OptionalButton({ active, type, price, id, att, setAtt, setReserve, setTotal }) {
   const token = useToken();
+
+  useEffect(() => {
+    if (active) {
+      setReserve(true);
+    } 
+    if (type === 'Com Hotel' && active) {
+      setTotal(600);
+    } else {
+      setTotal(250);
+    }
+  }, []);
 
   async function handleUpdateUserTicket(optionalId) {
     await optionalApi.updateUserOptional(token, optionalId);
     setAtt(!att);
     setReserve(true);
+    if (type === 'Com Hotel') {
+      setTotal(600);
+    } else {
+      setTotal(250);
+    }
   }
   return (
     <Button active={active} onClick={() => handleUpdateUserTicket(id)}>

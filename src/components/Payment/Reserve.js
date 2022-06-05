@@ -1,21 +1,29 @@
-import { insertPaymentData, getPaymentData } from '../../services/paymentApi';
+import { insertPaymentData } from '../../services/paymentApi';
 import styled from 'styled-components';
 import useToken from '../../hooks/useToken';
-import { useEffect, useState } from 'react';
+import usePayment from '../../hooks/usePayment';
 
-export function Reserve(att) {
+export function Reserve({ reserve, total }) {
   const token = useToken();
-  useEffect(() => {
-    getPaymentData(token);
-  }, [att]);
-  return (
-    <>
-      <SessionTitle>
-        Fechado! O total ficou em <span style={{ fontWeight: 'bold' }}>R$ 100</span>. Agora é só confirmar:
-      </SessionTitle>
-      <ActionButton onClick={() => insertPaymentData(token)}>RESERVAR INGRESSO</ActionButton>
-    </>
-  );
+  const { setPayment } = usePayment();
+
+  async function handleReservation() {
+    insertPaymentData(token);
+    setPayment(true);
+  }
+
+  if (reserve) {
+    return (
+      <>
+        <SessionTitle>
+          Fechado! O total ficou em <span style={{ fontWeight: 'bold' }}>R$ {total}</span>. Agora é só confirmar:
+        </SessionTitle>
+        <ActionButton onClick={() => handleReservation()}>RESERVAR INGRESSO</ActionButton>
+      </>
+    );    
+  } else {
+    return '';
+  }
 }
 
 const SessionTitle = styled.p`
