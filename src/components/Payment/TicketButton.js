@@ -1,13 +1,16 @@
 import styled from 'styled-components';
 import * as ticketApi from '../../services/ticketApi';
 import useToken from '../../hooks/useToken';
-import useUserTicket from '../../hooks/api/useUserTicket';
 
-export default function TicketButton({ type, price, id }) {
+export default function TicketButton({ active, type, price, id, att, setAtt }) {
   const token = useToken();
-  const { userTicket } = useUserTicket();
+
+  async function handleUpdateUserTicket(ticketId) {
+    await ticketApi.updateUserTicket(token, ticketId);
+    setAtt(!att);
+  }
   return (
-    <Button active={userTicket?.ticketId === id} onClick={() => ticketApi.updateUserTicket(token, id)}>
+    <Button active={active} onClick={() => handleUpdateUserTicket(id)}>
       <Type>{type}</Type>
       <Price>R$ {price}</Price>
     </Button>
@@ -24,7 +27,7 @@ const Button = styled.button`
   border-radius: 1rem;
   transition: all;
   &:hover {
-    background-color: #fff9f0;
+    background-color: ${(props) => (props.active ? '#FFEED2' : '#fff9f0')};
     cursor: pointer;
   }
 `;

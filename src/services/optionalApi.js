@@ -22,8 +22,8 @@ export async function updateUserOptional(token, optionalId) {
   );
 }
 
-export async function getUserOptionalInfo(token) {
-  const response = await api.get('/tickets/optionals', {
+export async function getUserOptionalInfo(token, ticketId) {
+  const response = await api.get(`/tickets/optionals/${ticketId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
