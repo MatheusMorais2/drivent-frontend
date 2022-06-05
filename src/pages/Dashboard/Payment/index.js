@@ -1,43 +1,26 @@
 import styled from 'styled-components';
-import TicketButton from '../../../components/Payment/TicketButton';
 import useEnrollment from '../../../hooks/api/useEnrollment';
-import useTicket from '../../../hooks/api/useTicket';
-import useOptional from '../../../hooks/api/useOptional';
-import OptionalButton from '../../../components/Payment/OptionalButton';
 import useToken from '../../../hooks/useToken';
 import { insertPaymentData } from '../../../services/paymentApi';
+import { Tickets } from './Tickets';
 
 export default function Payment() {
-  const { enrollment } = useEnrollment();
-  const { tickets } = useTicket();
-  const { optionals } = useOptional();
   const token = useToken();
+  const { enrollment, enrollmentLoading } = useEnrollment();
+  if (enrollmentLoading) {
+    return 'loading...';
+  }
   return (
     <PaymentContainer>
       {enrollment ? (
         <>
           <Title>Ingresso e Pagamento</Title>
-          <SessionTitle>Primeiro, escolha sua modalidade de ingresso</SessionTitle>
-          <SessionButtons>
-            {tickets?.map((ticket) => {
-              return <TicketButton key={ticket.id} id={ticket.id} type={ticket.type} price={ticket.price} />;
-            })}
-          </SessionButtons>
+          <Tickets />
 
-          {/* {optionals && ( */}
-          <SessionButtons>
-            {optionals?.map((optional) => {
-              return <OptionalButton key={optional.id} id={optional.id} type={optional.type} price={optional.price} />;
-            })}
-          </SessionButtons>
-          {/* )} */}
-
-          {/* componentes criados mas podem apagar \/ */}
           <SessionTitle>
             Fechado! O total ficou em <span style={{ fontWeight: 'bold' }}>R$ 100</span>. Agora é só confirmar:
           </SessionTitle>
           <ActionButton onClick={() => insertPaymentData(token)}>RESERVAR INGRESSO</ActionButton>
-          {/* componentes criados mas podem apagar /\ */}
         </>
       ) : (
         <AlertContainer>
@@ -55,10 +38,6 @@ const Title = styled.p`
 const SessionTitle = styled.p`
   font-size: 1.2rem;
   color: #8e8e8e;
-`;
-const SessionButtons = styled.div`
-  display: flex;
-  gap: 1rem;
 `;
 const ActionButton = styled.button`
   all: unset;

@@ -17,12 +17,3 @@ export async function updateUserTicket(token, ticketId) {
     },
   });
 }
-
-export async function getUserTicketInfo(token) {
-  const response = await api.get('/tickets', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
-}

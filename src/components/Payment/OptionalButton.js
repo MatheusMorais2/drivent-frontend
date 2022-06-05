@@ -2,15 +2,18 @@ import styled from 'styled-components';
 
 import * as optionalApi from '../../services/optionalApi';
 import useToken from '../../hooks/useToken';
-import useUserTicket from '../../hooks/api/useUserTicket';
 
-export default function OpitionalButton({ type, price, id }) {
+export default function OptionalButton({ active, type, price, id, att, setAtt }) {
   const token = useToken();
-  const { userTicket } = useUserTicket();
+
+  async function handleUpdateUserTicket(optionalId) {
+    await optionalApi.updateUserOptional(token, optionalId);
+    setAtt(!att);
+  }
   return (
-    <Button active={userTicket?.optionalId === id} onClick={() => optionalApi.updateUserOptional(token, id)}>
+    <Button active={active} onClick={() => handleUpdateUserTicket(id)}>
       <Type>{type}</Type>
-      <Price>R$ {price}</Price>
+      <Price>+ R$ {price}</Price>
     </Button>
   );
 }
@@ -25,7 +28,7 @@ const Button = styled.button`
   border-radius: 1rem;
   transition: all;
   &:hover {
-    background-color: #fff9f0;
+    background-color: ${(props) => (props.active ? '#FFEED2' : '#fff9f0')};
     cursor: pointer;
   }
 `;
