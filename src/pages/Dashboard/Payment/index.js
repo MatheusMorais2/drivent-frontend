@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useToken from '../../../hooks/useToken';
 import { insertPaymentData } from '../../../services/paymentApi';
+import { PaymentMethod } from './PaymentMethod';
 import { Tickets } from './Tickets';
 
 export default function Payment() {
@@ -15,12 +16,7 @@ export default function Payment() {
       {enrollment ? (
         <>
           <Title>Ingresso e Pagamento</Title>
-          <Tickets />
-
-          <SessionTitle>
-            Fechado! O total ficou em <span style={{ fontWeight: 'bold' }}>R$ 100</span>. Agora é só confirmar:
-          </SessionTitle>
-          <ActionButton onClick={() => insertPaymentData(token)}>RESERVAR INGRESSO</ActionButton>
+          {<Tickets />}
         </>
       ) : (
         <AlertContainer>
