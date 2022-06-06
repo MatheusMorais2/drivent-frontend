@@ -22,7 +22,7 @@ export function PaymentPage() {
   return (
     <>
       <ChosenTicket />
-      {isPaid ? <PaymentConfirmed /> : <PaymentMethod att={attPayment} setAtt={setAttPayment} />}
+      {isPaid ? <PaymentConfirmed /> : <PaymentMethod attPayment={attPayment} setAttPayment={setAttPayment} />}
     </>
   );
 }

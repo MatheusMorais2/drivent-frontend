@@ -47,6 +47,7 @@ export function PaymentMethod({ attPayment, setAttPayment }) {
     e.preventDefault();
     try {
       await confirmPaymentData(token, creditCard);
+      toast('Pagamento realizado com sucesso');
       setAttPayment(!attPayment);
     } catch (error) {
       toast('Pagamento não realizado, verifique as informações do cartão');
