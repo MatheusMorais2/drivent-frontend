@@ -8,7 +8,7 @@ import useToken from '../../../hooks/useToken';
 export function PaymentPage() {
   const token = useToken();
   const [isPaid, setIsPaid] = useState(false);
-  const [att, setAtt] = useState(false);
+  const [attPayment, setAttPayment] = useState(false);
 
   async function getIsPaid() {
     const response = await getPaymentData(token);
@@ -17,12 +17,12 @@ export function PaymentPage() {
 
   useEffect(() => {
     getIsPaid();
-  }, [att]);
+  }, [attPayment]);
 
   return (
     <>
       <ChosenTicket />
-      {isPaid ? <PaymentConfirmed /> : <PaymentMethod att={att} setAtt={setAtt} />}
+      {isPaid ? <PaymentConfirmed /> : <PaymentMethod att={attPayment} setAtt={setAttPayment} />}
     </>
   );
 }
