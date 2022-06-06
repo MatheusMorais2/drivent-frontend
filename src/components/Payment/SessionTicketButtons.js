@@ -6,6 +6,8 @@ import { getUserTicketInfo } from '../../services/userTicketApi';
 import { SessionOptionalButtons } from './SessionOptionalButtons';
 import TicketButton from './TicketButton';
 import { Reserve } from './Reserve';
+import usePayment from '../../hooks/usePayment';
+import { getPaymentData } from '../../services/paymentApi';
 
 export default function SessionTicketButtons() {
   const token = useToken();
@@ -15,9 +17,18 @@ export default function SessionTicketButtons() {
   const [ticketId, setTicketId] = useState(userTicket?.ticketId);
   const [reserve, setReserve] = useState(false);
   const [total, setTotal] = useState(0);
+  const { setPayment } = usePayment();
 
   useEffect(() => {
     async function fetchUserTicketData() {
+      try {
+        const paymentData = await getPaymentData(token);
+        if (paymentData) {
+          setPayment(true);
+        }
+      } catch (error) {
+        setPayment(false);
+      }
       const data = await getUserTicketInfo(token);
       setUserTicket(data);
       setTicketId(data.ticketId);
@@ -41,6 +52,7 @@ export default function SessionTicketButtons() {
               price={ticket.price}
               setReserve={setReserve}
               setTotal={setTotal}
+              total={total}
             />
           );
         })}
@@ -52,7 +64,7 @@ export default function SessionTicketButtons() {
         ticketId={ticketId}
         setTotal={setTotal}
       />
-      <Reserve reserve={reserve} total={total} />
+      <Reserve reserve={reserve} total={total} setAtt={setAtt} att={att} />
     </>
   );
 }

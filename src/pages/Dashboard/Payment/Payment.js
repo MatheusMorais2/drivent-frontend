@@ -1,7 +1,13 @@
-// import SessionTicketButtons from '../../../components/Payment/SessionTicketButtons';
+import { PaymentMethod } from './PaymentMethod';
+import { PaymentConfirmed } from '../../../components/Payment/PaymentConfirmed';
+import { ChosenTicket } from './ChosenTicket';
 
 export function PaymentPage() {
   return (
-    <h1>TESTE</h1>
+    <>
+      <ChosenTicket />
+      <PaymentMethod />
+      <PaymentConfirmed />
+    </>
   );
 }

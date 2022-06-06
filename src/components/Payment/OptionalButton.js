@@ -4,17 +4,17 @@ import * as optionalApi from '../../services/optionalApi';
 import useToken from '../../hooks/useToken';
 import { useEffect } from 'react';
 
-export default function OptionalButton({ active, type, price, id, att, setAtt, setReserve, setTotal }) {
+export default function OptionalButton({ active, type, price, id, att, setAtt, setReserve, setTotal, total }) {
   const token = useToken();
 
   useEffect(() => {
     if (active) {
       setReserve(true);
-    } 
+    }
     if (type === 'Com Hotel' && active) {
-      setTotal(600);
+      setTotal(total + price);
     } else {
-      setTotal(250);
+      setTotal(total + price);
     }
   }, []);
 

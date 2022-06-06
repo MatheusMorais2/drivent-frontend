@@ -13,9 +13,10 @@ export async function insertPaymentData(token) {
 }
 
 export async function getPaymentData(token) {
-  await api.get('/payment', {
+  const response = await api.get('/payment', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  return response.data;
 }
