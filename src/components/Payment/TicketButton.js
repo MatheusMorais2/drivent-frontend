@@ -3,14 +3,14 @@ import * as ticketApi from '../../services/ticketApi';
 import useToken from '../../hooks/useToken';
 import { useEffect } from 'react';
 
-export default function TicketButton({ active, type, price, id, att, setAtt, setReserve, setTotal }) {
+export default function TicketButton({ active, type, price, id, att, setAtt, setReserve, setTotal, total }) {
   const token = useToken();
 
   useEffect(() => {
     if (type === 'Online' && active) {
       setReserve(true);
-      setTotal(100);
-    } 
+    }
+    setTotal(price);
   }, [active]);
 
   async function handleUpdateUserTicket(ticketId) {
@@ -18,7 +18,7 @@ export default function TicketButton({ active, type, price, id, att, setAtt, set
     setAtt(!att);
     if (type === 'Online') {
       setReserve(true);
-      setTotal(100);
+      setTotal(price);
     } else {
       setReserve(false);
     }

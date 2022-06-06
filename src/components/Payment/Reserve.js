@@ -1,15 +1,13 @@
 import { insertPaymentData } from '../../services/paymentApi';
 import styled from 'styled-components';
 import useToken from '../../hooks/useToken';
-import usePayment from '../../hooks/usePayment';
 
-export function Reserve({ reserve, total }) {
+export function Reserve({ reserve, total, setAtt, att }) {
   const token = useToken();
-  const { setPayment } = usePayment();
 
   async function handleReservation() {
-    insertPaymentData(token);
-    setPayment(true);
+    await insertPaymentData(token);
+    setAtt(!att);
   }
 
   if (reserve) {
@@ -20,7 +18,7 @@ export function Reserve({ reserve, total }) {
         </SessionTitle>
         <ActionButton onClick={() => handleReservation()}>RESERVAR INGRESSO</ActionButton>
       </>
-    );    
+    );
   } else {
     return '';
   }

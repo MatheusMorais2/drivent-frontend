@@ -5,7 +5,7 @@ import { getUserOptionalInfo } from '../../services/optionalApi';
 import { getUserTicketInfo } from '../../services/userTicketApi';
 import OptionalButton from './OptionalButton';
 
-export function SessionOptionalButtons({ att, setAtt, ticketId, setReserve, setTotal }) {
+export function SessionOptionalButtons({ att, setAtt, ticketId, setReserve, setTotal, total }) {
   const token = useToken();
   const [userTicket, setUserTicket] = useState(null);
   const [optionals, setOptionals] = useState(null);
@@ -40,6 +40,7 @@ export function SessionOptionalButtons({ att, setAtt, ticketId, setReserve, setT
                 type={optional.type}
                 price={optional.price}
                 setTotal={setTotal}
+                total={total}
               />
             );
           })}
