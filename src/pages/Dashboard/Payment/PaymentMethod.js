@@ -3,13 +3,25 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { formatCreditCardNumber, formatCVC, formatExpirationDate } from '../../../utils/paymentUtils';
 import styled from 'styled-components';
+import { confirmPaymentData } from '../../../services/paymentApi';
+import useToken from '../../../hooks/useToken';
+import { toast } from 'react-toastify';
 
-export function PaymentMethod() {
+export function PaymentMethod({ att, setAtt }) {
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
   const [expiry, setExpiry] = useState('');
   const [cvc, setCvc] = useState('');
   const [focused, setFocused] = useState('');
+
+  const token = useToken();
+
+  const creditCard = {
+    number: number.replaceAll(' ', ''),
+    name: name,
+    expiry: expiry,
+    cvc: cvc,
+  };
 
   function handleInputChange({ target }) {
     if (target.name === 'number') {
@@ -21,11 +33,22 @@ export function PaymentMethod() {
     } else if (target.name === 'name') {
       setName(target.value);
     }
-  };
+  }
 
   function handleInputFocus({ target }) {
     setFocused(target.name);
-  };
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      await confirmPaymentData(token, creditCard);
+      setAtt(!att);
+    } catch (error) {
+      toast('Pagamento não realizado, verifique as informações do cartão');
+      return error;
+    }
+  }
 
   return (
     <>
@@ -41,7 +64,7 @@ export function PaymentMethod() {
             name: 'SEU NOME AQUI',
           }}
           locale={{
-            valid: 'Validade'
+            valid: 'Validade',
           }}
         />
         <Form>
@@ -102,6 +125,7 @@ export function PaymentMethod() {
           </Row>
         </Form>
       </Payment>
+      <Button onClick={(e) => handleSubmit(e)}>FINALIZAR PAGAMENTO</Button>
     </>
   );
 }
@@ -135,11 +159,11 @@ const Payment = styled.div`
   & > div {
     margin: 0 1rem 1rem 0;
   }
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     & > div {
-    margin: 0 auto;
-  }
+      margin: 0 auto;
+    }
   }
 `;
 const Row = styled.div`
@@ -150,4 +174,29 @@ const SessionTitle = styled.p`
   margin-left: 0.5rem;
   font-size: 1.2rem;
   color: #8e8e8e;
+`;
+
+const Button = styled.button`
+  all: unset;
+
+  margin-top: 35px;
+  margin-left: 5px;
+  margin-bottom: 40px;
+
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+
+  color: #000000;
+
+  cursor: pointer;
+
+  background: #e0e0e0;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+
+  width: 182px;
+  height: 37px;
 `;
