@@ -45,7 +45,13 @@ export default function SessionTicketButtons() {
           );
         })}
       </SessionButtons>
-      <SessionOptionalButtons att={att} setAtt={setAtt} setReserve={setReserve} ticketId={ticketId} setTotal={setTotal}/>
+      <SessionOptionalButtons
+        att={att}
+        setAtt={setAtt}
+        setReserve={setReserve}
+        ticketId={ticketId}
+        setTotal={setTotal}
+      />
       <Reserve reserve={reserve} total={total} />
     </>
   );
