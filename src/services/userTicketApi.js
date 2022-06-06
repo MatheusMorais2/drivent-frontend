@@ -8,3 +8,11 @@ export async function getUserTicketInfo(token) {
   });
   return response.data;
 }
+
+export async function deleteUserTicket(token) {
+  await api.delete('/tickets', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

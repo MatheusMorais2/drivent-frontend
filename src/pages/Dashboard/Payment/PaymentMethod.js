@@ -5,9 +5,11 @@ import { formatCreditCardNumber, formatCVC, formatExpirationDate } from '../../.
 import styled from 'styled-components';
 import { confirmPaymentData } from '../../../services/paymentApi';
 import useToken from '../../../hooks/useToken';
+import usePayment from '../../../hooks/usePayment';
 import { toast } from 'react-toastify';
+import { deleteUserTicket } from '../../../services/userTicketApi';
 
-export function PaymentMethod({ att, setAtt }) {
+export function PaymentMethod({ attPayment, setAttPayment }) {
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
   const [expiry, setExpiry] = useState('');
@@ -15,6 +17,8 @@ export function PaymentMethod({ att, setAtt }) {
   const [focused, setFocused] = useState('');
 
   const token = useToken();
+
+  const { setPayment } = usePayment();
 
   const creditCard = {
     number: number.replaceAll(' ', ''),
@@ -43,9 +47,20 @@ export function PaymentMethod({ att, setAtt }) {
     e.preventDefault();
     try {
       await confirmPaymentData(token, creditCard);
-      setAtt(!att);
+      setAttPayment(!attPayment);
     } catch (error) {
       toast('Pagamento não realizado, verifique as informações do cartão');
+      return error;
+    }
+  }
+  async function handleCancel(e) {
+    e.preventDefault();
+    try {
+      await deleteUserTicket(token);
+      toast('Pedido cancelado');
+      setPayment(false);
+    } catch (error) {
+      toast('Não foi possível cancelar o pedido');
       return error;
     }
   }
@@ -125,7 +140,10 @@ export function PaymentMethod({ att, setAtt }) {
           </Row>
         </Form>
       </Payment>
-      <Button onClick={(e) => handleSubmit(e)}>FINALIZAR PAGAMENTO</Button>
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        <Button onClick={(e) => handleSubmit(e)}>FINALIZAR PAGAMENTO</Button>
+        <Button onClick={(e) => handleCancel(e)}>CANCELAR</Button>
+      </div>
     </>
   );
 }
@@ -197,6 +215,5 @@ const Button = styled.button`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
 
-  width: 182px;
-  height: 37px;
+  padding: .8rem;
 `;
